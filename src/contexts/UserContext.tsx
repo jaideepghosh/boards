@@ -54,7 +54,7 @@ export const UserProvider = ({ children }: UserProviderProps): JSX.Element => {
         const userInitials = new Avatars(appwriteClient).getInitials();
         const loggedInUser = await account.get();
 
-        let sessionUser: UserType = {
+        const sessionUser: UserType = {
           avatar: userInitials,
           id: session.userId,
           name: loggedInUser?.name,
