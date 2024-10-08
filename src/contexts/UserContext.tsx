@@ -6,14 +6,21 @@ import {
   ReactNode,
 } from "react";
 import { useRouter } from "next/router";
-import { Account, Models } from "appwrite";
+import { Account, Avatars, Models } from "appwrite";
 import appwriteClient from "@/config/appwrite"; // Import the configured Appwrite client
+
+interface UserType {
+  avatar?: string;
+  id: string;
+  name: string;
+  email: string;
+}
 
 // Define a type for the User context
 interface UserContextType {
-  user: Models.Session | null;
+  user: UserType | null;
   session?: Models.Session | null;
-  setUser: React.Dispatch<React.SetStateAction<Models.Session | null>>;
+  setUser: React.Dispatch<React.SetStateAction<UserType | null>>;
 }
 
 // Create the UserContext
@@ -36,7 +43,7 @@ interface UserProviderProps {
 const account = new Account(appwriteClient);
 
 export const UserProvider = ({ children }: UserProviderProps): JSX.Element => {
-  const [user, setUser] = useState<Models.Session | null>(null);
+  const [user, setUser] = useState<UserType | null>(null);
   const [session, setSession] = useState<Models.Session | null>(null);
   const router = useRouter();
 
@@ -44,11 +51,21 @@ export const UserProvider = ({ children }: UserProviderProps): JSX.Element => {
     const loadUser = async () => {
       try {
         const session = await account.getSession("current"); // Get the current session
+        const userInitials = new Avatars(appwriteClient).getInitials();
+        const loggedInUser = await account.get();
+
+        let sessionUser: UserType = {
+          avatar: userInitials,
+          id: session.userId,
+          name: loggedInUser?.name,
+          email: loggedInUser?.email,
+        };
         setSession(session);
-        setUser(session);
+        setUser(sessionUser);
       } catch (error) {
         console.error(error);
-        if (router.pathname !== "/") router.push("/auth"); // Redirect to auth if there's no session
+        if (router.pathname !== "/" && router.pathname !== "/auth")
+          router.push("/auth"); // Redirect to auth if there's no session
       }
     };
 
