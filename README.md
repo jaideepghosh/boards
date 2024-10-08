@@ -1,4 +1,5 @@
 # Boards
+
 Connect any REST data source, and fetch the json. Map it to the given template, and save.
 
 It will render the page with dynamic contents.
