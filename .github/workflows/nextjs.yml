@@ -30,6 +30,11 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+      - name: Set environment variables from GitHub Secrets
+        run: |
+          echo "NEXT_PUBLIC_APP_URL=${{ secrets.NEXT_PUBLIC_APP_URL }}" >> $GITHUB_ENV
+          echo "NEXT_PUBLIC_APPWRITE_PROJECT_NAME=${{ secrets.NEXT_PUBLIC_APPWRITE_PROJECT_NAME }}" >> $GITHUB_ENV
+
       - name: Checkout
         uses: actions/checkout@v4
       - name: Detect package manager
