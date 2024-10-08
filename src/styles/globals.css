@@ -5,19 +5,19 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --gable-green: #133036;
+  --dark-mint: #3dc253;
+  --dawn-pink: #f5ece2;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
     --foreground: #ededed;
+    --gable-green: #133036;
+    --dark-mint: #3dc253;
+    --dawn-pink: #f5ece2;
   }
-}
-
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
 }
 
 @layer utilities {
