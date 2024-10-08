@@ -78,8 +78,8 @@ export default function LandingPage() {
               </h3>
               <p className="text-gray-500 dark:text-gray-400">
                 Connect effortlessly to any data source that returns data in
-                REST format. Whether it's your CRM, database, or third-party
-                service, Boards makes integration a breeze.
+                REST format. Whether it&apos;s your CRM, database, or
+                third-party service, Boards makes integration a breeze.
               </p>
             </div>
             <div>
@@ -191,8 +191,8 @@ export default function LandingPage() {
               </h3>
               <p className="text-gray-500 dark:text-gray-400">
                 Your data is safe with Boards. Our platform scales with you,
-                whether you're an individual user or a growing team, ensuring
-                that your data remains secure and accessible.
+                whether you&apos;re an individual user or a growing team,
+                ensuring that your data remains secure and accessible.
               </p>
             </div>
           </div>

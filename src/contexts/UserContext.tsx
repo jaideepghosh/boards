@@ -12,6 +12,7 @@ import appwriteClient from "@/config/appwrite"; // Import the configured Appwrit
 // Define a type for the User context
 interface UserContextType {
   user: Models.Session | null;
+  session?: Models.Session | null;
   setUser: React.Dispatch<React.SetStateAction<Models.Session | null>>;
 }
 
@@ -55,7 +56,7 @@ export const UserProvider = ({ children }: UserProviderProps): JSX.Element => {
   }, [router]);
 
   return (
-    <UserContext.Provider value={{ user, setUser }}>
+    <UserContext.Provider value={{ user, setUser, session }}>
       {children}
     </UserContext.Provider>
   );
