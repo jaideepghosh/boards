@@ -1,18 +1,6 @@
-import { useUser } from "@/contexts/UserContext";
-
-import appwriteClient from "@/config/appwrite";
-import { Account } from "appwrite";
-import { useRouter } from "next/router";
 import Header from "@/components/app/header";
 
 export default function Dashboard() {
-  const { user, session } = useUser();
-  const router = useRouter();
-  const logout = () => {
-    const account = new Account(appwriteClient);
-    account.deleteSession(session?.$id as string);
-    router.push("/auth");
-  };
   return (
     <div className="antialiased bg-gray-50 dark:bg-gray-900">
       <Header />

@@ -13,7 +13,7 @@ export default function ProfilePage() {
             <img
               className="w-24 h-24 mb-3 rounded-full shadow-lg"
               src={user?.avatar ?? ""}
-              alt={user?.name}
+              alt={user?.name ?? "Boards User"}
             />
             <h5 className="mb-1 text-xl font-medium text-gray-900 dark:text-white">
               {user?.name}
