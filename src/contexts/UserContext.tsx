@@ -47,7 +47,7 @@ export const UserProvider = ({ children }: UserProviderProps): JSX.Element => {
         setUser(session);
       } catch (error) {
         console.error(error);
-        router.push("/login"); // Redirect to login if there's no session
+        if (router.pathname !== "/") router.push("/auth"); // Redirect to auth if there's no session
       }
     };
 
