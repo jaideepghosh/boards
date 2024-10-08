@@ -6,9 +6,12 @@ name: Deploy Next.js site to Pages
 
 on:
   workflow_dispatch:
-
-  # Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:
+    inputs:
+      branch:
+        description: "Select branch to run"
+        required: true
+        default: "main"
+        type: string
 
 # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
 permissions:
