@@ -7,7 +7,7 @@ export default function LandingPage() {
     <>
       <Navigation />;
       <section className="bg-light dark:bg-gray-900">
-        <div className="py-2 px-4 mx-auto max-w-screen-xl text-center lg:py-16 lg:px-12">
+        <div className="pt-16 pb-4 px-4 mx-auto max-w-screen-xl text-center lg:pt-16 lg:px-12">
           <h1 className="mb-4 text-4xl font-extrabold tracking-tight leading-none text-gray-900 md:text-5xl lg:text-6xl dark:text-light">
             Unlock the Power of Your Data with Boards
           </h1>
@@ -56,9 +56,9 @@ export default function LandingPage() {
         </div>
       </section>
       <section className="bg-gray-50 dark:bg-gray-800">
-        <div className="px-4 mx-auto max-w-screen-xl sm:py-16 lg:px-6">
-          <div className="md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-12 md:space-y-0">
-            <div>
+        <div className="px-4 py-8 md:py-2 mx-auto max-w-screen-xl sm:py-16 lg:px-6">
+          <div className="md:grid md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8 md:space-y-0 space-y-4">
+            <div className="py-2 shadow p-4">
               <div className="flex justify-center items-center mb-4 w-10 h-10 rounded-full bg-secondary lg:h-12 lg:w-12 dark:bg-secondary">
                 <svg
                   className="w-5 h-5 text-light lg:w-6 lg:h-6 dark:text-primary"
@@ -82,7 +82,7 @@ export default function LandingPage() {
                 third-party service, Boards makes integration a breeze.
               </p>
             </div>
-            <div>
+            <div className="py-2 shadow p-4">
               <div className="flex justify-center items-center mb-4 w-10 h-10 rounded-full bg-secondary lg:h-12 lg:w-12 dark:bg-secondary">
                 <svg
                   className="w-5 h-5 text-light lg:w-6 lg:h-6 dark:text-primary"
@@ -102,7 +102,7 @@ export default function LandingPage() {
                 decisions, faster.
               </p>
             </div>
-            <div>
+            <div className="py-2 shadow p-4">
               <div className="flex justify-center items-center mb-4 w-10 h-10 rounded-full bg-secondary lg:h-12 lg:w-12 dark:bg-secondary">
                 <svg
                   className="w-5 h-5 text-light lg:w-6 lg:h-6 dark:text-primary"
@@ -127,7 +127,7 @@ export default function LandingPage() {
                 informed, always.
               </p>
             </div>
-            <div>
+            <div className="py-2 shadow p-4">
               <div className="flex justify-center items-center mb-4 w-10 h-10 rounded-full bg-secondary lg:h-12 lg:w-12 dark:bg-secondary">
                 <svg
                   className="w-5 h-5 text-light lg:w-6 lg:h-6 dark:text-primary"
@@ -152,7 +152,7 @@ export default function LandingPage() {
                 as a few clicks.
               </p>
             </div>
-            <div>
+            <div className="py-2 shadow p-4">
               <div className="flex justify-center items-center mb-4 w-10 h-10 rounded-full bg-secondary lg:h-12 lg:w-12 dark:bg-secondary">
                 <svg
                   className="w-5 h-5 text-light lg:w-6 lg:h-6 dark:text-primary"
@@ -171,7 +171,7 @@ export default function LandingPage() {
                 widgets to display exactly the data that matters to you.
               </p>
             </div>
-            <div>
+            <div className="py-2 shadow p-4">
               <div className="flex justify-center items-center mb-4 w-10 h-10 rounded-full bg-secondary lg:h-12 lg:w-12 dark:bg-secondary">
                 <svg
                   className="w-5 h-5 text-light lg:w-6 lg:h-6 dark:text-primary"
