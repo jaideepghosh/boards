@@ -58,7 +58,7 @@ export default function LandingPage() {
 
       <div className="max-w-4xl mx-auto px-5">
         <div className="text-center">
-          <h2 className="font-semibold text-3xl">Features you'll love</h2>
+          <h2 className="font-semibold text-3xl">Features you&apos;ll love</h2>
           <p className="max-w-md mx-auto mt-2 text-gray-500">
             Effortlessly transform your data into stunning, customizable charts.
           </p>
@@ -86,8 +86,8 @@ export default function LandingPage() {
               <h3 className="font-semibold text-xl">Simple Data Integration</h3>
               <p className="mt-1 text-gray-500">
                 Connect effortlessly to any data source that returns data in
-                REST format. Whether it's your CRM, database, or third-party
-                service, Boards makes integration a breeze.
+                REST format. Whether it&apos;s your CRM, database, or
+                third-party service, Boards makes integration a breeze.
               </p>
             </div>
           </div>
@@ -195,8 +195,8 @@ export default function LandingPage() {
               <h3 className="font-semibold text-xl">Secure and Scalable</h3>
               <p className="mt-1 text-gray-500">
                 Your data is safe with Boards. Our platform scales with you,
-                whether you're an individual user or a growing team, ensuring
-                that your data remains secure and accessible.
+                whether you&apos;re an individual user or a growing team,
+                ensuring that your data remains secure and accessible.
               </p>
             </div>
           </div>
