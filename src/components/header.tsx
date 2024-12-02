@@ -5,8 +5,7 @@ export default function Header() {
     <header className=" flex items-center justify-between px-5 py-3  ">
       <div className="flex items-center gap-2">
         <Link className="flex" href="/">
-          {/* <img src="/logo.svg" /> */}
-          <span className="font-bold">Boards</span>
+          <img className="h-5" src="/logo.png" alt="Boards" />
         </Link>
       </div>
       <nav className="flex items-center gap-5">
