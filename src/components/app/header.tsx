@@ -67,10 +67,7 @@ export default function Header() {
               <span className="sr-only">Toggle sidebar</span>
             </DrawerTrigger>
             <Link href="/" className="flex items-center justify-between mr-4">
-              {/* <img className="mr-3 h-8" alt="Boards Logo" /> */}
-              <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
-                Boards
-              </span>
+              <img className="h-5" src="/logo.png" alt="Boards" />
             </Link>
           </div>
           <div
