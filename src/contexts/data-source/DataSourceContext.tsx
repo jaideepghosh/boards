@@ -4,6 +4,7 @@ import React, { createContext, useContext, useState } from "react";
 type DataSourceFormData = {
   connectionName: string;
   sourceURL: string;
+  preferredKey?: string;
 };
 
 type DataSourceFormContextType = {
