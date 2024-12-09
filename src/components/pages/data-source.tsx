@@ -2,7 +2,9 @@
 import React, { useEffect, useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import {
+  DataRow,
   DataSourceFormProvider,
+  TableProps,
   useDataSourceFormContext,
 } from "@/contexts/data-source/DataSourceContext";
 import axios from "axios";
@@ -15,6 +17,15 @@ import {
 } from "@/components/select";
 import { Button } from "@/components/button";
 import { Input } from "@/components/input";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/table";
+import { getStructure } from "@/lib/getStructure";
 
 type Inputs = {
   connectionName: string;
@@ -33,7 +44,6 @@ const AddSourceStep = ({ onNext }: { onNext: () => void }) => {
 
   const onSubmit: SubmitHandler<Inputs> = (data) => {
     updateFormData({ ...data, preferredKey: undefined }); // Update context with form data
-    console.log("Step 1 Data:", data);
     onNext();
   };
 
@@ -90,10 +100,7 @@ const AddSourceStep = ({ onNext }: { onNext: () => void }) => {
             )}
           </div>
         </div>
-        <button
-          type="submit"
-          className="px-5 py-2.5 text-sm font-medium text-white bg-blue-700 rounded-lg inline-flex items-center hover:bg-blue-800"
-        >
+        <Button type="submit">
           <svg
             className="w-3 h-3 text-white me-2"
             aria-hidden="true"
@@ -110,7 +117,7 @@ const AddSourceStep = ({ onNext }: { onNext: () => void }) => {
             />
           </svg>
           Let&apos;s Test
-        </button>
+        </Button>
       </div>
     </form>
   );
@@ -125,11 +132,13 @@ const TestConnectionStep = ({
 }) => {
   const [responseKeys, setResponseKeys] = useState<string[]>([]);
   const { formData, updateFormData } = useDataSourceFormContext();
+  const [response, setResponse] = useState();
 
   const getSchema = async () => {
     try {
       const result = await axios.get(formData.sourceURL);
       setResponseKeys(Object.keys(result));
+      setResponse(result.data);
     } catch (error) {
       console.error("error:: ", error);
     }
@@ -140,7 +149,7 @@ const TestConnectionStep = ({
   }, []);
 
   const handleKeySelection = (key: string) => {
-    updateFormData({ ...formData, preferredKey: key });
+    updateFormData({ ...formData, preferredKey: key, response });
   };
 
   return (
@@ -212,11 +221,49 @@ const TestConnectionStep = ({
   );
 };
 
+const ResponsePreviewTable: React.FC<TableProps> = ({ data, columns }) => (
+  <Table>
+    <TableHeader>
+      <TableRow>
+        {columns.map((col) => (
+          <TableHead key={col} className="truncate">
+            {col}
+          </TableHead>
+        ))}
+      </TableRow>
+    </TableHeader>
+    <TableBody>
+      {data.slice(0, 5).map((row, rowIndex) => (
+        <TableRow key={rowIndex}>
+          {columns.map((col) => (
+            <TableCell key={col} className="truncate">
+              {row[col]}
+            </TableCell>
+          ))}
+        </TableRow>
+      ))}
+    </TableBody>
+  </Table>
+);
+
 const ReviewStep = ({ onPrev }: { onPrev: () => void }) => {
+  const { formData } = useDataSourceFormContext();
+
+  const { response } = formData;
+
+  // Ensure response is an array for the table
+  const tableData: DataRow[] = Array.isArray(response) ? response : [response];
+
+  // Define table columns (adjust keys based on the response structure)
+
+  const columns = Object.keys(getStructure(tableData)[0]).filter(
+    (key) => typeof getStructure(tableData)[0][key] !== "object"
+  );
   return (
     <div className="grid gap-y-4 p-4 bg-background">
       <h2 className="text-lg font-semibold">Review</h2>
-      <p className="mb-4">Review your data and save the source.</p>
+      <p>Review your data and save the source.</p>
+      <ResponsePreviewTable data={tableData} columns={columns} />
       <div className="flex gap-4">
         <Button onClick={onPrev} variant="secondary">
           <svg
