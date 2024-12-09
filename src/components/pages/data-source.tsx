@@ -1,10 +1,20 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import {
   DataSourceFormProvider,
   useDataSourceFormContext,
 } from "@/contexts/data-source/DataSourceContext";
+import axios from "axios";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/select";
+import { Button } from "@/components/button";
+import { Input } from "@/components/input";
 
 type Inputs = {
   connectionName: string;
@@ -22,7 +32,7 @@ const AddSourceStep = ({ onNext }: { onNext: () => void }) => {
   });
 
   const onSubmit: SubmitHandler<Inputs> = (data) => {
-    updateFormData(data); // Update context with form data
+    updateFormData({ ...data, preferredKey: undefined }); // Update context with form data
     console.log("Step 1 Data:", data);
     onNext();
   };
@@ -38,7 +48,7 @@ const AddSourceStep = ({ onNext }: { onNext: () => void }) => {
             Connection Name
           </label>
           <div className="mt-2">
-            <input
+            <Input
               type="text"
               id="connectionName"
               className="block w-full py-1.5 pl-3 pr-3 text-gray-500 bg-white border border-gray-300 rounded-md focus:ring-indigo-600"
@@ -62,7 +72,7 @@ const AddSourceStep = ({ onNext }: { onNext: () => void }) => {
             Source URL
           </label>
           <div className="mt-2">
-            <input
+            <Input
               type="text"
               id="sourceURL"
               className="block w-full py-1.5 pl-3 pr-3 text-gray-500 bg-white border border-gray-300 rounded-md focus:ring-indigo-600"
@@ -113,18 +123,51 @@ const TestConnectionStep = ({
   onNext: () => void;
   onPrev: () => void;
 }) => {
-  const { formData } = useDataSourceFormContext();
+  const [responseKeys, setResponseKeys] = useState<string[]>([]);
+  const { formData, updateFormData } = useDataSourceFormContext();
+
+  const getSchema = async () => {
+    try {
+      const result = await axios.get(formData.sourceURL);
+      setResponseKeys(Object.keys(result));
+    } catch (error) {
+      console.error("error:: ", error);
+    }
+  };
+
+  useEffect(() => {
+    getSchema();
+  }, []);
+
+  const handleKeySelection = (key: string) => {
+    updateFormData({ ...formData, preferredKey: key });
+  };
 
   return (
     <div className="grid gap-y-4 p-4 bg-background">
       <h2 className="text-lg font-semibold">Test Connection</h2>
-      <p className="mb-4">{JSON.stringify(formData)}</p>
-      <p className="mb-4">Simulating connection test...</p>
+      {responseKeys.length > 0 ? (
+        <Select onValueChange={handleKeySelection}>
+          <SelectTrigger className="w-[180px]">
+            <SelectValue placeholder="Select Peferred Key" />
+          </SelectTrigger>
+          <SelectContent>
+            {responseKeys.map((key) => (
+              <SelectItem value={key} key={key}>
+                {key}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      ) : (
+        <div className="animate-pulse">
+          <div className="h-10 bg-gray-200 rounded-md w-44"></div>
+          <span className="sr-only">Loading...</span>
+        </div>
+      )}
+
       <div className="flex gap-4">
-        <button
-          onClick={onPrev}
-          className="px-5 py-2.5 text-sm font-medium text-gray-600 bg-gray-200 rounded-lg inline-flex items-center"
-        >
+        <Button onClick={onPrev} variant="secondary">
           <svg
             className="w-3 h-3 text-gray-500 me-2 rotate-180"
             aria-hidden="true"
@@ -141,11 +184,11 @@ const TestConnectionStep = ({
             />
           </svg>
           Back
-        </button>
-        <button
+        </Button>
+        <Button
           type="submit"
           onClick={onNext}
-          className="px-5 py-2.5 text-sm font-medium text-white bg-blue-700 rounded-lg inline-flex items-center hover:bg-blue-800"
+          disabled={!formData.preferredKey}
         >
           <svg
             className="w-3 h-3 text-white me-2"
@@ -163,7 +206,7 @@ const TestConnectionStep = ({
             />
           </svg>
           Let&apos;s Save
-        </button>
+        </Button>
       </div>
     </div>
   );
@@ -173,12 +216,9 @@ const ReviewStep = ({ onPrev }: { onPrev: () => void }) => {
   return (
     <div className="grid gap-y-4 p-4 bg-background">
       <h2 className="text-lg font-semibold">Review</h2>
-      <p className="mb-4">Review your data and submit.</p>
+      <p className="mb-4">Review your data and save the source.</p>
       <div className="flex gap-4">
-        <button
-          onClick={onPrev}
-          className="px-5 py-2.5 text-sm font-medium text-gray-600 bg-gray-200 rounded-lg inline-flex items-center"
-        >
+        <Button onClick={onPrev} variant="secondary">
           <svg
             className="w-3 h-3 text-gray-500 me-2 rotate-180"
             aria-hidden="true"
@@ -195,8 +235,8 @@ const ReviewStep = ({ onPrev }: { onPrev: () => void }) => {
             />
           </svg>
           Back
-        </button>
-        <button className="px-5 py-2.5 text-sm font-medium text-white bg-blue-700 rounded-lg inline-flex items-center hover:bg-blue-800">
+        </Button>
+        <Button>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -212,7 +252,7 @@ const ReviewStep = ({ onPrev }: { onPrev: () => void }) => {
             />
           </svg>
           Save Data Source
-        </button>
+        </Button>
       </div>
     </div>
   );
