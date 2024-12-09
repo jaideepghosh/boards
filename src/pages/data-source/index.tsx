@@ -1,10 +1,14 @@
+import React from "react";
 import Header from "@/components/app/header";
+import DataSourceForm from "@/components/pages/data-source";
 
 export default function DataSourcePage() {
   return (
-    <div className="antialiased bg-gray-50 dark:bg-gray-900">
+    <div>
       <Header />
-      <main className="p-4 h-auto pt-20">Data Source Page</main>
+      <div className="p-4 h-auto pt-20 ">
+        <DataSourceForm />
+      </div>
     </div>
   );
 }
