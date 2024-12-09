@@ -26,6 +26,10 @@ import {
   TableRow,
 } from "@/components/table";
 import { getStructure } from "@/lib/getStructure";
+import { createDocument } from "@/services/data-source";
+import { useToast } from "@/hooks/use-toast";
+import { ToastAction } from "@/components/toast";
+import Link from "next/link";
 
 type Inputs = {
   connectionName: string;
@@ -247,6 +251,7 @@ const ResponsePreviewTable: React.FC<TableProps> = ({ data, columns }) => (
 );
 
 const ReviewStep = ({ onPrev }: { onPrev: () => void }) => {
+  const { toast } = useToast();
   const { formData } = useDataSourceFormContext();
 
   const { response } = formData;
@@ -259,6 +264,33 @@ const ReviewStep = ({ onPrev }: { onPrev: () => void }) => {
   const columns = Object.keys(getStructure(tableData)[0]).filter(
     (key) => typeof getStructure(tableData)[0][key] !== "object"
   );
+
+  const saveDataSource = async () => {
+    let dataSourcePyaload = (({ response, ...object }) => object)(formData);
+    try {
+      await createDocument(dataSourcePyaload);
+      toast({
+        title: "Data source has been added",
+        action: (
+          <Link href="/canvas">
+            <ToastAction altText="Create Canvas">Create Canvas</ToastAction>
+          </Link>
+        ),
+      });
+    } catch (error) {
+      console.error("saveDataSource:: error:: ", error);
+      toast({
+        variant: "destructive",
+        title: "Something went wrong",
+        action: (
+          <ToastAction altText="Try again" onClick={saveDataSource}>
+            Try again
+          </ToastAction>
+        ),
+      });
+    }
+  };
+
   return (
     <div className="grid gap-y-4 p-4 bg-background">
       <h2 className="text-lg font-semibold">Review</h2>
@@ -283,7 +315,7 @@ const ReviewStep = ({ onPrev }: { onPrev: () => void }) => {
           </svg>
           Back
         </Button>
-        <Button>
+        <Button onClick={saveDataSource}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
