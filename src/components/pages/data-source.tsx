@@ -257,7 +257,9 @@ const ReviewStep = ({ onPrev }: { onPrev: () => void }) => {
   const { response } = formData;
 
   // Ensure response is an array for the table
-  const tableData: DataRow[] = Array.isArray(response) ? response : [response];
+  const tableData: DataRow[] = (
+    Array.isArray(response) ? response : [response]
+  ).filter((item): item is DataRow => item !== undefined);
 
   // Define table columns (adjust keys based on the response structure)
 
