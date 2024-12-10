@@ -21,6 +21,7 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "@/components/drawer";
+import { BASE_PATH } from "@/constants/common";
 
 export default function Header() {
   const { user, session } = useUser();
@@ -67,7 +68,7 @@ export default function Header() {
               <span className="sr-only">Toggle sidebar</span>
             </DrawerTrigger>
             <Link href="/" className="flex items-center justify-between mr-4">
-              <img className="h-5" src="/logo.png" alt="Boards" />
+              <img className="h-5" src={`${BASE_PATH}/logo.png`} alt="Boards" />
             </Link>
           </div>
           <div
