@@ -14,19 +14,20 @@ type Structure<T> = T extends Array<infer U>
   : DataStructure;
 
 export function getStructure<T>(obj: T): Structure<T> {
-  const getType = (value: any): DataStructure => {
+  const getType = (value: unknown): DataStructure => {
     if (Array.isArray(value)) return "array";
     if (value === null) return "null";
     return typeof value as DataStructure;
   };
 
-  const traverse = (data: any): any => {
+  const traverse = (data: unknown): unknown => {
     if (Array.isArray(data)) {
+      // Handle empty array case correctly
       return data.length > 0 ? [traverse(data[0])] : [];
     } else if (typeof data === "object" && data !== null) {
-      const structure: Record<string, any> = {};
+      const structure = {} as Record<string, unknown>;
       for (const key in data) {
-        structure[key] = traverse(data[key]);
+        structure[key] = traverse((data as Record<string, unknown>)[key]);
       }
       return structure;
     } else {
@@ -34,5 +35,5 @@ export function getStructure<T>(obj: T): Structure<T> {
     }
   };
 
-  return traverse(obj);
+  return traverse(obj) as Structure<T>;
 }

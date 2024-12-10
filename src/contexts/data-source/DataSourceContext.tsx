@@ -2,7 +2,7 @@
 import React, { createContext, useContext, useState } from "react";
 
 export interface DataRow {
-  [key: string]: any; // Flexible typing for dynamic row data
+  [key: string]: string | number | boolean | null; // Flexible typing for dynamic row data
 }
 
 export interface TableProps {
