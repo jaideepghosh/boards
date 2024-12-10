@@ -1,11 +1,12 @@
 import Link from "next/link";
+import { BASE_PATH } from "@/constants/common";
 
 export default function Header() {
   return (
     <header className=" flex items-center justify-between px-5 py-3  ">
       <div className="flex items-center gap-2">
         <Link className="flex" href="/">
-          <img className="h-5" src="/logo.png" alt="Boards" />
+          <img className="h-5" src={`${BASE_PATH}/logo.png`} alt="Boards" />
         </Link>
       </div>
       <nav className="flex items-center gap-5">
