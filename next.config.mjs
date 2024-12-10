@@ -10,7 +10,10 @@ const nextConfig = {
       process.env.NEXT_PUBLIC_APPWRITE_PROJECT_NAME || "default",
   },
   // Optional: To ensure correct handling of the basePath in the static export
-  assetPrefix: process.env.NODE_ENV === "production" ? "/boards/" : "",
+  assetPrefix: process.env.NODE_ENV === "production" ? "/boards" : "",
+  images: {
+    unoptimized: true,
+  },
 };
 
 export default nextConfig;

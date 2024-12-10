@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import {
   DataRow,
@@ -138,7 +138,7 @@ const TestConnectionStep = ({
   const { formData, updateFormData } = useDataSourceFormContext();
   const [response, setResponse] = useState();
 
-  const getSchema = async () => {
+  const getSchema = useCallback(async () => {
     try {
       const result = await axios.get(formData.sourceURL);
       setResponseKeys(Object.keys(result));
@@ -146,11 +146,11 @@ const TestConnectionStep = ({
     } catch (error) {
       console.error("error:: ", error);
     }
-  };
+  }, [formData.sourceURL]);
 
   useEffect(() => {
     getSchema();
-  }, []);
+  }, [getSchema]);
 
   const handleKeySelection = (key: string) => {
     updateFormData({ ...formData, preferredKey: key, response });
@@ -266,9 +266,10 @@ const ReviewStep = ({ onPrev }: { onPrev: () => void }) => {
   );
 
   const saveDataSource = async () => {
-    let dataSourcePyaload = (({ response, ...object }) => object)(formData);
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { response: _, ...dataSourcePayload } = formData;
     try {
-      await createDocument(dataSourcePyaload);
+      await createDocument(dataSourcePayload);
       toast({
         title: "Data source has been added",
         action: (
